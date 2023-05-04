@@ -14,7 +14,7 @@ const sendErrorProd = (err, res) => {
   });
 };
 
-export default (err, req, res, next) => {
+export default (err, _req, res) => {
   console.log('Global', err);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
