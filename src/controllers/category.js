@@ -52,3 +52,13 @@ export const getAllCategories = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getACategory = async (req, res, next) => {
+  try {
+    const category = await CategorySchema.findOne({ where: { id: req.params.id } });
+
+    return sendResponse(res, 'success', category, 200);
+  } catch (error) {
+    return next(error);
+  }
+};
