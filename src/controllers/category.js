@@ -42,3 +42,13 @@ export const updateCategory = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getAllCategories = async (req, res, next) => {
+  try {
+    const categories = await CategorySchema.findAll();
+
+    return sendResponse(res, 'success', categories, 200);
+  } catch (error) {
+    return next(error);
+  }
+};
