@@ -15,6 +15,12 @@ const CategorySchema = sequelize.define(
     parent: {
       type: INTEGER,
       allowNull: true,
+      references: {
+        model: {
+          tableName: 'categories',
+        },
+        key: 'id',
+      },
     },
     created_at: {
       type: 'TIMESTAMP',
