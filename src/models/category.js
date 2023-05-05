@@ -14,7 +14,7 @@ const CategorySchema = sequelize.define(
     },
     parent: {
       type: INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     created_at: {
       type: 'TIMESTAMP',
