@@ -1,8 +1,14 @@
 import app from './app';
 import sequelize from './config/database';
+// import CategorySchema from './models/category';
+// import ProductSchema from './models/product';
+// import ProdCatMapsSchema from './models/productCategoryMap';
+
+// CategorySchema.sync();
+// ProductSchema.sync();
+// ProdCatMapsSchema.sync();
 
 sequelize
-  // .sync()
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');

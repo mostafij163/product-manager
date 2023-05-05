@@ -1,36 +1,20 @@
 import { DataTypes, literal } from 'sequelize';
 import sequelize from '../config/database';
+import ProductSchema from './product';
+import ProdCatMapsSchema from './productCategoryMap';
 
 const { INTEGER, STRING } = DataTypes;
 
-const ProductSchema = sequelize.define(
-  'products',
+const CategorySchema = sequelize.define(
+  'categories',
   {
     name: {
       type: STRING,
       allowNull: false,
     },
-    category_id: {
+    parent: {
       type: INTEGER,
       allowNull: false,
-      references: {
-        model: {
-          tableName: 'categories',
-        },
-        key: 'id',
-      },
-    },
-    color: {
-      type: STRING,
-      allowNull: true,
-    },
-    size: {
-      type: STRING,
-      allowNull: true,
-    },
-    brand: {
-      type: STRING,
-      allowNull: true,
     },
     created_at: {
       type: 'TIMESTAMP',
@@ -49,4 +33,7 @@ const ProductSchema = sequelize.define(
   }
 );
 
-export default ProductSchema;
+CategorySchema.belongsToMany(ProductSchema, { through: ProdCatMapsSchema, foreignKey: 'cat_id' });
+ProductSchema.belongsToMany(CategorySchema, { through: ProdCatMapsSchema, foreignKey: 'prod_id' });
+
+export default CategorySchema;
