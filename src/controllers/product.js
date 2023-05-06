@@ -125,3 +125,23 @@ export const getProducts = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const getProduct = async (req, res, next) => {
+  try {
+    let product = await ProductSchema.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        model: ProdCatMapsSchema,
+        attributes: [['cat_id', 'id']],
+        as: 'categoriesId',
+        required: true,
+      },
+    });
+
+    return sendResponse(res, 'success', product, 200);
+  } catch (error) {
+    return next(error);
+  }
+};
