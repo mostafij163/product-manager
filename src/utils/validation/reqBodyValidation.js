@@ -10,3 +10,14 @@ export const updateCategorySchema = Joi.object({
   name: Joi.string().required().error(new Error('Please provide a category name!')),
   parent: Joi.number(),
 });
+
+export const addProductSchema = Joi.object({
+  name: Joi.string().required().error(new Error('Please provide a product name!')),
+  categoriesId: Joi.array()
+    .items(Joi.number().required().error(new Error('Please provide a category!')))
+    .required()
+    .error(new Error('Please provide a product category!')),
+  color: Joi.string(),
+  size: Joi.string(),
+  brand: Joi.string(),
+});

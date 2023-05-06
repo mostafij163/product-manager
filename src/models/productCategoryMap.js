@@ -26,9 +26,12 @@ const ProdCatMapsSchema = sequelize.define(
     },
   },
   {
-    timestamp: false,
+    timestamps: false,
     SCHEMA: process.env.SCHEMA,
   }
 );
+
+CategorySchema.belongsToMany(ProductSchema, { through: ProdCatMapsSchema, foreignKey: 'cat_id' });
+ProductSchema.belongsToMany(CategorySchema, { through: ProdCatMapsSchema, foreignKey: 'prod_id' });
 
 export default ProdCatMapsSchema;

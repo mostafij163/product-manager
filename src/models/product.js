@@ -1,7 +1,7 @@
 import { DataTypes, literal } from 'sequelize';
 import sequelize from '../config/database';
 
-const { INTEGER, STRING } = DataTypes;
+const { STRING } = DataTypes;
 
 const ProductSchema = sequelize.define(
   'products',
@@ -9,16 +9,6 @@ const ProductSchema = sequelize.define(
     name: {
       type: STRING,
       allowNull: false,
-    },
-    category_id: {
-      type: INTEGER,
-      allowNull: false,
-      references: {
-        model: {
-          tableName: 'categories',
-        },
-        key: 'id',
-      },
     },
     color: {
       type: STRING,

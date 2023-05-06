@@ -1,5 +1,5 @@
 import CategorySchema from '../models/category';
-import { createCategorySchema, updateCategorySchema } from '../utils/validation/validations';
+import { createCategorySchema, updateCategorySchema } from '../utils/validation/reqBodyValidation';
 import sendResponse from './../utils/responses/sendResponse';
 
 export const createCategory = async (req, res, next) => {
