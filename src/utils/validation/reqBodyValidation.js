@@ -33,3 +33,10 @@ export const updateProductSchema = Joi.object({
   size: Joi.string(),
   brand: Joi.string(),
 });
+
+export const getProductsSchema = Joi.object({
+  name: Joi.string(),
+  categoriesId: Joi.array().items(Joi.number()),
+  brand: Joi.string(),
+  color: Joi.string(),
+});

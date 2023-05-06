@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 import sequelize from './../config/database';
-import { addProductSchema, updateProductSchema } from '../utils/validation/reqBodyValidation';
+import { addProductSchema, getProductsSchema, updateProductSchema } from '../utils/validation/reqBodyValidation';
 import ProductSchema from './../models/product';
 import sendResponse from './../utils/responses/sendResponse';
 import ProdCatMapsSchema from '../models/productCategoryMap';
 
-const { QueryTypes } = Sequelize;
+const { QueryTypes, Op } = Sequelize;
 
 export const addProduct = async (req, res, next) => {
   try {
@@ -89,6 +89,38 @@ export const updateProduct = async (req, res, next) => {
     });
 
     return sendResponse(res, 'success', products, 201);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const getProducts = async (req, res, next) => {
+  try {
+    await getProductsSchema.validateAsync(req.body);
+    const { name, brand, color, categoriesId } = req.body;
+
+    const searchCats = categoriesId
+      ? {
+          cat_id: categoriesId,
+        }
+      : {};
+
+    let products = await ProductSchema.findAll({
+      where: {
+        name: { [Op.iLike]: `%${name ? name : ' '}%` },
+        name: { [Op.iLike]: `%${brand ? brand : ' '}%` },
+        name: { [Op.iLike]: `%${color ? color : ' '}%` },
+      },
+      include: {
+        model: ProdCatMapsSchema,
+        attributes: [],
+        as: 'categoriesId',
+        required: true,
+        where: searchCats,
+      },
+    });
+
+    return sendResponse(res, 'success', products, 200);
   } catch (error) {
     return next(error);
   }

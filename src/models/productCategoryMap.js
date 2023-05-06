@@ -34,4 +34,7 @@ const ProdCatMapsSchema = sequelize.define(
 CategorySchema.belongsToMany(ProductSchema, { through: ProdCatMapsSchema, foreignKey: 'cat_id' });
 ProductSchema.belongsToMany(CategorySchema, { through: ProdCatMapsSchema, foreignKey: 'prod_id' });
 
+ProductSchema.hasMany(ProdCatMapsSchema, { foreignKey: 'prod_id', as: 'categoriesId' });
+ProdCatMapsSchema.belongsTo(ProductSchema, { foreignKey: 'prod_id', as: 'categoriesId' });
+
 export default ProdCatMapsSchema;
