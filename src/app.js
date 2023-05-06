@@ -20,7 +20,7 @@ app.get('/', (_req, res) => {
 });
 app.use('/api/v1', router);
 app.get('/docs', (_req, res) => {
-  res.redirect('');
+  res.redirect('https://documenter.getpostman.com/view/8727847/2s93eX2ZPG');
 });
 
 app.all('*', (req, _res, next) => {
