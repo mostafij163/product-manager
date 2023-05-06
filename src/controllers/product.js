@@ -145,3 +145,27 @@ export const getProduct = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    await sequelize.transaction(async (t) => {
+      await ProductSchema.destroy({
+        where: {
+          id: req.params.id,
+        },
+        transaction: t,
+      });
+
+      await ProdCatMapsSchema.destroy({
+        where: {
+          prod_id: req.params.id,
+        },
+        transaction: t,
+      });
+    });
+
+    sendResponse(res, 'success', null, 204);
+  } catch (error) {
+    return next(error);
+  }
+};
