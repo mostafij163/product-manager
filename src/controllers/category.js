@@ -1,6 +1,8 @@
+import sequelize from './../config/database';
 import CategorySchema from '../models/category';
 import { createCategorySchema, updateCategorySchema } from '../utils/validation/reqBodyValidation';
 import sendResponse from './../utils/responses/sendResponse';
+import ProdCatMapsSchema from '../models/productCategoryMap';
 
 export const createCategory = async (req, res, next) => {
   try {
@@ -58,6 +60,30 @@ export const getACategory = async (req, res, next) => {
     const category = await CategorySchema.findOne({ where: { id: req.params.id } });
 
     return sendResponse(res, 'success', category, 200);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const deleteCategory = async (req, res, next) => {
+  try {
+    await sequelize.transaction(async (t) => {
+      await CategorySchema.destroy({
+        where: {
+          id: req.params.id,
+        },
+        transaction: t,
+      });
+
+      await ProdCatMapsSchema.destroy({
+        where: {
+          cat_id: req.params.id,
+        },
+        transaction: t,
+      });
+    });
+
+    sendResponse(res, 'success', null, 204);
   } catch (error) {
     return next(error);
   }
